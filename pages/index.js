@@ -8,6 +8,46 @@ import ArrowIcon from '../components/ArrowIcon';
 import { getGlobalData } from '../utils/global-data';
 import SEO from '../components/SEO';
 
+export function ExibirFormularioDeDadosLocais() {
+  const Salvando = (evento) => {
+    evento.preventDefault()
+    let chave = document.getElementById("chave").value;
+    let valor = document.getElementById("valor").value;
+    
+    console.log(chave);
+    console.log(valor);
+    localStorage.setItem(chave, valor)
+  }
+
+  return (
+    <form onSubmit={Salvando}>
+      <label>chave: <input id="chave" type="text" name="chave" /></label>
+      <br />
+      <label>valor: <input id="valor" type="text" name="valor" /></label>
+      <br />
+      <input type="submit" value="Salvar"/>
+      <br />
+    </form>
+  )
+}
+
+export function RetornarValoresLocal() {
+
+  const Exibir = (evento) => {
+    evento.preventDefault()
+    // let valor = JSON.stringify(...localStorage)
+    let valor = localStorage.getItem(document.getElementById("chave").value)
+    console.log(valor + "algo ");
+    let result = document.getElementById("resultado");
+    result.value = valor;
+  }
+
+  return (
+    <input type="submit" value="PegarPelaChave" onClick={Exibir} />
+  )
+
+}
+
 export default function Index({ posts, globalData }) {
   return (
     <Layout>
@@ -17,6 +57,9 @@ export default function Index({ posts, globalData }) {
         <h1 className="text-3xl lg:text-5xl text-center mb-12">
           {globalData.blogTitle}
         </h1>
+        <ExibirFormularioDeDadosLocais />
+        <RetornarValoresLocal />
+        <input id="resultado" type="text"></input>
         <ul className="w-full">
           {posts.map((post) => (
             <li
